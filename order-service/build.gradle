@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.3.2.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+}
+
+
+group = 'org.arunm'
+version = '0.0.1-SNAPSHOT'
+
+ext {
+    set('springCloudVersion', "Hoxton.SR6")
+}
+
+dependencies {
+    implementation 'org.springframework.cloud:spring-cloud-starter-consul-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

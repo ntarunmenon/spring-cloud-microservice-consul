@@ -1,3 +1,5 @@
 rootProject.name = 'consul-service-discover-samples'
 
 include 'address-lookup-service'
+include 'order-service'
+
