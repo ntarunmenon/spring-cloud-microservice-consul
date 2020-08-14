@@ -34,7 +34,7 @@ public class OrderServiceApplication {
     @PostMapping("/order")
     public OrderResponse createOrder(@RequestBody  OrderRequest orderRequest) {
         Address address = restTemplate
-                .getForEntity("http://localhost:7090/address?customerId={customerId}",
+                .getForEntity("http://address-lookup-service:7090/address?customerId={customerId}",
                         Address.class,
                         orderRequest.getCustomerId())
                 .getBody();
