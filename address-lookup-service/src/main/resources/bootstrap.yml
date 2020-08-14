@@ -1,9 +1,4 @@
-server:
-  port: 7071
-
 spring:
-  application:
-    name: Order-Service
   cloud:
     consul:
       host: consul-server
