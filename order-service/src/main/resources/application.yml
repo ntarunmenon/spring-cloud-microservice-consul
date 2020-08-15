@@ -5,6 +5,9 @@ spring:
   application:
     name: Order-Service
   cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
     consul:
       host: consul-server
       port: 8500

@@ -6,13 +6,13 @@ services:
     ports:
       - "8500:8500"
       - "8600:8600/udp"
-  address-lookup-service:
+  address-lookup-service-host:
     build: ./address-lookup-service
     ports:
       - "7090:7090"
     depends_on:
       - "consul-server"
-  order-service:
+  order-service-host:
     build: ./order-service
     ports:
       - "7071:7071"

@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +20,7 @@ import java.util.Random;
 
 @SpringBootApplication
 @RestController
+@Configuration
 public class OrderServiceApplication {
 
     public static void main(String[] args) {
@@ -24,17 +28,19 @@ public class OrderServiceApplication {
     }
 
 
+    @Autowired
     private RestTemplate restTemplate;
 
-    OrderServiceApplication(RestTemplateBuilder restTemplateBuilder) {
-        this.restTemplate = restTemplateBuilder
-                .build();
+    @LoadBalanced
+    @Bean
+    public RestTemplate loadbalancedRestTemplate() {
+        return new RestTemplate();
     }
 
     @PostMapping("/order")
     public OrderResponse createOrder(@RequestBody  OrderRequest orderRequest) {
         Address address = restTemplate
-                .getForEntity("http://address-lookup-service:7090/address?customerId={customerId}",
+                .getForEntity("http://Address-Lookup-Service:7090/address?customerId={customerId}",
                         Address.class,
                         orderRequest.getCustomerId())
                 .getBody();
