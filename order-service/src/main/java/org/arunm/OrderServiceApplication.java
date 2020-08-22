@@ -6,7 +6,8 @@ import org.arunm.model.OrderResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 import java.util.Random;
 
 @SpringBootApplication
@@ -27,6 +29,9 @@ public class OrderServiceApplication {
         SpringApplication.run(OrderServiceApplication.class,args);
     }
 
+
+    @Autowired
+    private DiscoveryClient discoveryClient;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -46,6 +51,7 @@ public class OrderServiceApplication {
                 .getBody();
         Assert.notNull(address, "Address cannot be null");
         System.out.println("Address from service is " + address);
+        serviceUrl();
         orderRequest.setAddress(address);
         return createOrderResponse();
     }
@@ -61,5 +67,14 @@ public class OrderServiceApplication {
 
         response.setReceiptNo(generatedString);
         return response;
+    }
+
+    public String serviceUrl() {
+        List<ServiceInstance> list = discoveryClient.getInstances("Address-Lookup-Service");
+        if (list != null && list.size() > 0 ) {
+            System.out.println("url is" + list.get(0).getUri().toString());
+            return list.get(0).getUri().toString();
+        }
+        return null;
     }
 }
