@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Random;
 
@@ -36,7 +39,6 @@ public class OrderServiceApplication {
     @Autowired
     private RestTemplate restTemplate;
 
-    @LoadBalanced
     @Bean
     public RestTemplate loadbalancedRestTemplate() {
         return new RestTemplate();
@@ -44,10 +46,14 @@ public class OrderServiceApplication {
 
     @PostMapping("/order")
     public OrderResponse createOrder(@RequestBody  OrderRequest orderRequest) {
+        URI uri = UriComponentsBuilder.
+                fromUri(serviceUrl())
+                    .path("address")
+                    .queryParam("customerId",orderRequest.getCustomerId())
+                .build().toUri();
         Address address = restTemplate
-                .getForEntity("http://Address-Lookup-Service:7090/address?customerId={customerId}",
-                        Address.class,
-                        orderRequest.getCustomerId())
+                .getForEntity(uri,
+                        Address.class)
                 .getBody();
         Assert.notNull(address, "Address cannot be null");
         System.out.println("Address from service is " + address);
@@ -69,11 +75,11 @@ public class OrderServiceApplication {
         return response;
     }
 
-    public String serviceUrl() {
+    public URI serviceUrl() {
         List<ServiceInstance> list = discoveryClient.getInstances("Address-Lookup-Service");
         if (list != null && list.size() > 0 ) {
             System.out.println("url is" + list.get(0).getUri().toString());
-            return list.get(0).getUri().toString();
+            return list.get(0).getUri();
         }
         return null;
     }
