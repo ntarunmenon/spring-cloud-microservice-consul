@@ -3,3 +3,12 @@ server:
 spring:
   application:
     name: Address-Lookup-Service
+
+keycloak:
+  enabled: true
+  realm: master
+  auth-server-url: http://127.0.0.1:8080/auth
+  ssl-required: external
+  resource: address-lookup-service
+  credentials:
+    secret : f13f8e69-40cd-4ade-ad0a-569b25389128
