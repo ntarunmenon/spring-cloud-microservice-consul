@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AddressLookupApplication {
 
-    @GetMapping("/address")
-    public Address greeting(@RequestParam(value = "customerId") String customerId) {
+    @GetMapping("/api/address")
+    public Address address(@RequestParam(value = "customerId") String customerId) {
         return createAddress();
     }
 

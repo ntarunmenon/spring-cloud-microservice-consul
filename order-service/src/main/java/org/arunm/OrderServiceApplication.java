@@ -48,7 +48,7 @@ public class OrderServiceApplication {
     public OrderResponse createOrder(@RequestBody  OrderRequest orderRequest) {
         URI uri = UriComponentsBuilder.
                 fromUri(serviceUrl())
-                    .path("address")
+                    .path("/api/address")
                     .queryParam("customerId",orderRequest.getCustomerId())
                 .build().toUri();
         Address address = restTemplate
