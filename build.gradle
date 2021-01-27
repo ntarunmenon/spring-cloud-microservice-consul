@@ -2,11 +2,6 @@ allprojects {
     repositories {
         jcenter() 
     }
-
-    ext {
-        set('keycloakVersion', '11.0.3')
-    }
-
 }
 subprojects {
     version = '1.0'

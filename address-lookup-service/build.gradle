@@ -10,6 +10,7 @@ version = '0.0.1-SNAPSHOT'
 
 ext {
     set('springCloudVersion', "Hoxton.SR6")
+    set('keycloakVersion', '11.0.3')
 }
 
 java {
