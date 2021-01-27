@@ -47,7 +47,7 @@ public class OrderServiceApplication {
         return restTemplateBuilder.build();
     }
 
-    @PostMapping("/order")
+    @PostMapping("/api/order")
     public OrderResponse createOrder(@RequestBody  OrderRequest orderRequest) {
         URI uri = UriComponentsBuilder.
                 fromUri(serviceUrl())

@@ -8,3 +8,12 @@ spring:
     loadbalancer:
       ribbon:
         enabled: false
+
+keycloak:
+  enabled: true
+  realm: master
+  bearer-only: true
+  auth-server-url: http://localhost:8080/auth
+  resource: order-service
+  credentials:
+    secret : 8958b9ab-7c5e-4739-a487-90d2a6b2f268
