@@ -40,12 +40,14 @@ public class OrderServiceApplication {
         SpringApplication.run(OrderServiceApplication.class,args);
     }
 
-
-    @Autowired
     private DiscoveryClient discoveryClient;
 
-    @Autowired
     private RestTemplate restTemplate;
+
+    public OrderServiceApplication(DiscoveryClient discoveryClient, RestTemplate restTemplate) {
+        this.discoveryClient = discoveryClient;
+        this.restTemplate = restTemplate;
+    }
 
     @Bean
     public RestTemplate loadbalancedRestTemplate(RestTemplateBuilder restTemplateBuilder) {
